@@ -1,7 +1,6 @@
 # test-component
 
-// подключение компаненты
-import {TileLetters} from './tile-letters';
+import {TileLetters} from './tile-letters'; //подключение компаненты
 
 document.addEventListener("DOMContentLoaded", function() {
 
