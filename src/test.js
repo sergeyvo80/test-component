@@ -1,3 +1,4 @@
+// подключение компаненты
 import {TileLetters} from './tile-letters';
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -15,5 +16,4 @@ document.addEventListener("DOMContentLoaded", function() {
     order.addEventListener("change", function() {
         myEl.setAttribute('order', this.value);
     });
-
 });
