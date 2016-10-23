@@ -43,10 +43,10 @@ export class TileLetters extends Component {
     _getContainer() {
         let resDiv;
         if (this.domEl.nextSibling.tagName
-            && this.domEl.nextSibling.tagName.toLowerCase() == 'my-el-result') {
+            && this.domEl.nextSibling.tagName.toLowerCase() == 'tile-letters-result') {
             resDiv = this.domEl.nextSibling;
         } else {
-            resDiv = document.createElement('my-el-result');
+            resDiv = document.createElement('tile-letters-result');
             this.domEl.parentNode.insertBefore(resDiv, this.domEl.nextSibling);
         }
         return resDiv;

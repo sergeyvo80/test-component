@@ -137,10 +137,10 @@
 	        key: '_getContainer',
 	        value: function _getContainer() {
 	            var resDiv = void 0;
-	            if (this.domEl.nextSibling.tagName && this.domEl.nextSibling.tagName.toLowerCase() == 'my-el-result') {
+	            if (this.domEl.nextSibling.tagName && this.domEl.nextSibling.tagName.toLowerCase() == 'tile-letters-result') {
 	                resDiv = this.domEl.nextSibling;
 	            } else {
-	                resDiv = document.createElement('my-el-result');
+	                resDiv = document.createElement('tile-letters-result');
 	                this.domEl.parentNode.insertBefore(resDiv, this.domEl.nextSibling);
 	            }
 	            return resDiv;
@@ -343,7 +343,7 @@
 	
 	
 	// module
-	exports.push([module.id, "my-el {\n  position: relative;\n  display: block;\n}\nmy-el-result {\n  border: #f00 solid 1px;\n  position: relative;\n  display: flex;\n}\nmy-el-result tile {\n  position: relative;\n  display: block;\n  color: #fff;\n  background-color: #0000ed;\n  font-size: 28px;\n  padding: 20px;\n  margin: 5px;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n", ""]);
+	exports.push([module.id, "tile-letters {\n  position: relative;\n  display: block;\n  border: #0f0 solid 1px;\n  margin: 10px 0;\n}\ntile-letters-result {\n  border: #f00 solid 1px;\n  position: relative;\n  display: flex;\n}\ntile-letters-result tile {\n  position: relative;\n  display: block;\n  color: #fff;\n  background-color: #0000ed;\n  font-size: 28px;\n  padding: 20px;\n  margin: 5px;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n", ""]);
 	
 	// exports
 
