@@ -343,7 +343,7 @@
 	
 	
 	// module
-	exports.push([module.id, "tile-letters {\n  position: relative;\n  display: block;\n  border: #0f0 solid 1px;\n  margin: 10px 0;\n}\ntile-letters-result {\n  border: #f00 solid 1px;\n  position: relative;\n  display: flex;\n}\ntile-letters-result tile {\n  position: relative;\n  display: block;\n  color: #fff;\n  background-color: #0000ed;\n  font-size: 28px;\n  padding: 20px;\n  margin: 5px;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n", ""]);
+	exports.push([module.id, "tile-letters {\n  position: relative;\n  display: block;\n  border: #0f0 solid 1px;\n  margin-bottom: 10px;\n}\ntile-letters-result {\n  border: #f00 solid 1px;\n  position: relative;\n  display: flex;\n}\ntile-letters-result tile {\n  position: relative;\n  display: block;\n  color: #fff;\n  background-color: #0000ed;\n  font-size: 28px;\n  padding: 20px;\n  margin: 5px;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n", ""]);
 	
 	// exports
 
