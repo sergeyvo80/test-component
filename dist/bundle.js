@@ -51,7 +51,7 @@
 	document.addEventListener("DOMContentLoaded", function () {
 	
 	    // инициализация компоненты my-el
-	    var myEl = document.querySelector('my-el');
+	    var myEl = document.querySelector('tile-letters');
 	    var tileLetters = new _tileLetters.TileLetters(myEl);
 	
 	    // тестирование компоненты my-el
@@ -63,7 +63,7 @@
 	    order.addEventListener("change", function () {
 	        myEl.setAttribute('order', this.value);
 	    });
-	});
+	}); // подключение компаненты
 
 /***/ },
 /* 1 */
@@ -130,7 +130,7 @@
 	         * Возвращает контейнер для отрисовки компаненты.
 	         *
 	         * @method _getContainer
-	         * @return {Object} DOM контейнер для трисовки компоненты.
+	         * @return {Object} DOM контейнер для отрисовки компоненты.
 	         */
 	
 	    }, {

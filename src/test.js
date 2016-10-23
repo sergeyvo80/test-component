@@ -4,7 +4,7 @@ import {TileLetters} from './tile-letters';
 document.addEventListener("DOMContentLoaded", function() {
 
     // инициализация компоненты my-el
-    let myEl = document.querySelector('my-el');
+    let myEl = document.querySelector('tile-letters');
     let tileLetters = new TileLetters(myEl);
 
     // тестирование компоненты my-el
