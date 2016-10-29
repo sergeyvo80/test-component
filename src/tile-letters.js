@@ -2,7 +2,6 @@
  * Created by Sergey on 21.10.2016.
  */
 
-import {Component} from './component';
 import './tile-letters.less';
 
 /**
@@ -10,22 +9,69 @@ import './tile-letters.less';
  *
  * @class TileLetters
  */
-export class TileLetters extends Component {
+export class TileLetters extends HTMLElement {
 
     /**
      * @constructor
      * @param {Object} domEl Дом элемент.
      */
-    constructor(domEl) {
-        super(domEl, ['layout', 'order']);
+    constructor() {
+        super();
     }
+
+    /**
+     * Наблюдаемые атрибуты.
+     *
+     * @getter observedAttributes
+     * @return {Array} Наблюдаемые атрибуты.
+     */
+    get observedAttributes() { return ['layout', 'order']; }
+
+    /**
+     * Событие изменения атрибутов.
+     *
+     * @method attributeChangedCallback
+     * @param {String} name Имя атрибуты.
+     * @param {String} oldValue Старое значение.
+     * @param {String} newValue Новое значение.
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (this.observedAttributes.indexOf(name) != -1) {
+            this._updateRendering();
+        }
+    }
+
+    /**
+     * Событие создание компоненты.
+     *
+     * @method createdCallback.
+     */
+    createdCallback() {
+        this._observer = new MutationObserver(() => {
+            this._updateRendering();
+        });
+    };
+
+    /**
+     * Событие добавления компоненты.
+     *
+     * @method createdCallback.
+     */
+    attachedCallback() {
+        this._observer.observe(this, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
+        this._updateRendering();
+    };
 
     /**
      * Рендеринг компоненты.
      *
-     * @method _render
+     * @method _updateRendering
      */
-    _render() {
+    _updateRendering() {
         let resContent = this._createContent(),
             resDiv = this._getContainer();
         this._setStyles(resDiv);
@@ -42,14 +88,10 @@ export class TileLetters extends Component {
      */
     _getContainer() {
         let resDiv;
-        if (this.domEl.nextSibling.tagName
-            && this.domEl.nextSibling.tagName.toLowerCase() == 'tile-letters-result') {
-            resDiv = this.domEl.nextSibling;
-        } else {
-            resDiv = document.createElement('tile-letters-result');
-            this.domEl.parentNode.insertBefore(resDiv, this.domEl.nextSibling);
+        if (!this.shadowRoot) {
+            this.createShadowRoot().innerHTML = `<letters></letters>`;
         }
-        return resDiv;
+        return this.shadowRoot.querySelector('letters');
     }
 
     /**
@@ -60,7 +102,7 @@ export class TileLetters extends Component {
      */
     _createContent() {
         let resContent = '';
-        for(let letter of this.domEl.innerText) {
+        for(let letter of this.innerHTML) {
             resContent+= '<tile style="background-color: #'+this._getLetterColor(letter)+';">'+letter+'</tile>';
         }
         return resContent;
@@ -73,8 +115,8 @@ export class TileLetters extends Component {
      * @param {Object} resDiv Контейнер содержимого компоненты.
      */
     _setStyles(resDiv) {
-        let layout = this.domEl.getAttribute('layout'),
-            order = this.domEl.getAttribute('order'),
+        let layout = this.getAttribute('layout'),
+            order = this.getAttribute('order'),
             flexDirection,
             flexDirectionType,
             reverse = '';

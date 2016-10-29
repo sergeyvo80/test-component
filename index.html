@@ -26,24 +26,24 @@
 
 <section class="main-content">
 
-<h1>tile-letters</h1>
+    Text:
+    <input type="text" class="test-text" value="test"><br><br>
 
+    Layout:
+    <select class="layout">
+        <option>inline</option>
+        <option>column</option>
+    </select>
 
-Layout:
-<select class="layout">
-    <option>inline</option>
-    <option>column</option>
-</select>
+    Order:
+    <select class="order">
+        <option>direct</option>
+        <option>reversed</option>
+        <option disabled>randomize</option>
+    </select>
+    <br><br>
 
-Order:
-<select class="order">
-    <option>direct</option>
-    <option>reversed</option>
-    <option disabled>randomize</option>
-</select>
-<br><br>
-текст можно изменять<br>
-<tile-letters layout="inline" order="direct" contenteditable='true'>test</tile-letters>
+    <tile-letters layout="inline" order="direct">test</tile-letters>
 
     </section>
 

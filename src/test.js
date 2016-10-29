@@ -3,17 +3,19 @@ import {TileLetters} from './tile-letters';
 
 document.addEventListener("DOMContentLoaded", function() {
 
-    // инициализация компоненты my-el
-    let myEl = document.querySelector('tile-letters');
-    let tileLetters = new TileLetters(myEl);
+    // регистрация компоненты tile-letters
+    document.registerElement("tile-letters", TileLetters);
 
-    // тестирование компоненты my-el
-    let layout = document.getElementsByClassName('layout')[0];
-    let order = document.getElementsByClassName('order')[0];
-    layout.addEventListener("change", function() {
+    //тестирование компоненты my-el
+    let myEl = document.querySelector('tile-letters');
+    document.querySelector('.test-text').addEventListener("keyup", function() {
+        myEl.innerHTML = this.value;
+    });
+    document.querySelector('.layout').addEventListener("change", function() {
         myEl.setAttribute('layout', this.value);
     });
-    order.addEventListener("change", function() {
+    document.querySelector('.order').addEventListener("change", function() {
         myEl.setAttribute('order', this.value);
     });
+
 });

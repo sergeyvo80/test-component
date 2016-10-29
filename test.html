@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!--<script type="text/javascript" src="bower_components/object.observe/dist/object-observe.js" charset="utf-8"></script>-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
 </head>
 <body>
 
 <h1>tile-letters</h1>
 
+
+Text:
+<input type="text" class="test-text" value="test"><br><br>
 
 Layout:
 <select class="layout">
@@ -24,8 +27,8 @@ Order:
     <option disabled>randomize</option>
 </select>
 <br><br>
-текст можно изменять<br>
-<tile-letters layout="inline" order="direct" contenteditable='true'>test</tile-letters>
+
+<tile-letters layout="inline" order="direct">test</tile-letters>
 
 
 </body>

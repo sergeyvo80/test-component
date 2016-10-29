@@ -1,17 +1,14 @@
 tile-letters {
   position: relative;
   display: block;
-  border:#0f0 solid 1px;
+  //border:#00f solid 1px;
   margin-bottom: 10px;
 
-  &-result {
-    border:#f00 solid 1px;
+  &::shadow letters {
+    //border:#f00 solid 1px;
     position: relative;
-//    display: block;
     display: flex;
-    //flex-direction: row;
-    //justify-content: flex-start;
-
+    margin-top: 20px;
 
     tile {
       position: relative;
@@ -23,7 +20,8 @@ tile-letters {
       margin: 5px;
       text-transform: uppercase;
       font-weight: bold;
-
+      box-shadow: 3px 5px 14px 0px rgba(0,0,0,0.55);
+      transition: 3s;
     }
   }
 }

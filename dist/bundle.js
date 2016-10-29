@@ -44,23 +44,24 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var _tileLetters = __webpack_require__(1);
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	
-	    // инициализация компоненты my-el
-	    var myEl = document.querySelector('tile-letters');
-	    var tileLetters = new _tileLetters.TileLetters(myEl);
+	    // регистрация компоненты tile-letters
+	    document.registerElement("tile-letters", _tileLetters.TileLetters);
 	
-	    // тестирование компоненты my-el
-	    var layout = document.getElementsByClassName('layout')[0];
-	    var order = document.getElementsByClassName('order')[0];
-	    layout.addEventListener("change", function () {
+	    //тестирование компоненты my-el
+	    var myEl = document.querySelector('tile-letters');
+	    document.querySelector('.test-text').addEventListener("keyup", function () {
+	        myEl.innerHTML = this.value;
+	    });
+	    document.querySelector('.layout').addEventListener("change", function () {
 	        myEl.setAttribute('layout', this.value);
 	    });
-	    order.addEventListener("change", function () {
+	    document.querySelector('.order').addEventListener("change", function () {
 	        myEl.setAttribute('order', this.value);
 	    });
 	}); // подключение компаненты
@@ -78,8 +79,6 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _component = __webpack_require__(2);
-	
 	__webpack_require__(3);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -95,29 +94,87 @@
 	 *
 	 * @class TileLetters
 	 */
-	var TileLetters = exports.TileLetters = function (_Component) {
-	    _inherits(TileLetters, _Component);
+	var TileLetters = exports.TileLetters = function (_HTMLElement) {
+	    _inherits(TileLetters, _HTMLElement);
 	
 	    /**
 	     * @constructor
 	     * @param {Object} domEl Дом элемент.
 	     */
-	    function TileLetters(domEl) {
+	    function TileLetters() {
 	        _classCallCheck(this, TileLetters);
 	
-	        return _possibleConstructorReturn(this, (TileLetters.__proto__ || Object.getPrototypeOf(TileLetters)).call(this, domEl, ['layout', 'order']));
+	        return _possibleConstructorReturn(this, (TileLetters.__proto__ || Object.getPrototypeOf(TileLetters)).call(this));
 	    }
 	
 	    /**
-	     * Рендеринг компоненты.
+	     * Наблюдаемые атрибуты.
 	     *
-	     * @method _render
+	     * @getter observedAttributes
+	     * @return {Array} Наблюдаемые атрибуты.
 	     */
 	
 	
 	    _createClass(TileLetters, [{
-	        key: '_render',
-	        value: function _render() {
+	        key: 'attributeChangedCallback',
+	
+	
+	        /**
+	         * Событие изменения атрибутов.
+	         *
+	         * @method attributeChangedCallback
+	         * @param {String} name Имя атрибуты.
+	         * @param {String} oldValue Старое значение.
+	         * @param {String} newValue Новое значение.
+	         */
+	        value: function attributeChangedCallback(name, oldValue, newValue) {
+	            if (this.observedAttributes.indexOf(name) != -1) {
+	                this._updateRendering();
+	            }
+	        }
+	
+	        /**
+	         * Событие создание компоненты.
+	         *
+	         * @method createdCallback.
+	         */
+	
+	    }, {
+	        key: 'createdCallback',
+	        value: function createdCallback() {
+	            var _this2 = this;
+	
+	            this._observer = new MutationObserver(function () {
+	                _this2._updateRendering();
+	            });
+	        }
+	    }, {
+	        key: 'attachedCallback',
+	
+	
+	        /**
+	         * Событие добавления компоненты.
+	         *
+	         * @method createdCallback.
+	         */
+	        value: function attachedCallback() {
+	            this._observer.observe(this, {
+	                childList: true,
+	                characterData: true,
+	                subtree: true
+	            });
+	            this._updateRendering();
+	        }
+	    }, {
+	        key: '_updateRendering',
+	
+	
+	        /**
+	         * Рендеринг компоненты.
+	         *
+	         * @method _updateRendering
+	         */
+	        value: function _updateRendering() {
 	            var resContent = this._createContent(),
 	                resDiv = this._getContainer();
 	            this._setStyles(resDiv);
@@ -137,13 +194,10 @@
 	        key: '_getContainer',
 	        value: function _getContainer() {
 	            var resDiv = void 0;
-	            if (this.domEl.nextSibling.tagName && this.domEl.nextSibling.tagName.toLowerCase() == 'tile-letters-result') {
-	                resDiv = this.domEl.nextSibling;
-	            } else {
-	                resDiv = document.createElement('tile-letters-result');
-	                this.domEl.parentNode.insertBefore(resDiv, this.domEl.nextSibling);
+	            if (!this.shadowRoot) {
+	                this.createShadowRoot().innerHTML = '<letters></letters>';
 	            }
-	            return resDiv;
+	            return this.shadowRoot.querySelector('letters');
 	        }
 	
 	        /**
@@ -162,7 +216,7 @@
 	            var _iteratorError = undefined;
 	
 	            try {
-	                for (var _iterator = this.domEl.innerText[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                for (var _iterator = this.innerHTML[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	                    var letter = _step.value;
 	
 	                    resContent += '<tile style="background-color: #' + this._getLetterColor(letter) + ';">' + letter + '</tile>';
@@ -195,8 +249,8 @@
 	    }, {
 	        key: '_setStyles',
 	        value: function _setStyles(resDiv) {
-	            var layout = this.domEl.getAttribute('layout'),
-	                order = this.domEl.getAttribute('order'),
+	            var layout = this.getAttribute('layout'),
+	                order = this.getAttribute('order'),
 	                flexDirection = void 0,
 	                flexDirectionType = void 0,
 	                reverse = '';
@@ -237,78 +291,18 @@
 	            }
 	            return letterColor * 4 + 400;
 	        }
-	    }]);
-
-	    return TileLetters;
-	}(_component.Component);
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	/**
-	 * Created by Sergey on 21.10.2016.
-	 *
-	 * Абстрактная компонента
-	 *
-	 * @class Component
-	 */
-	var Component = exports.Component = function () {
-	
-	    /**
-	     * @constructor
-	     * @param {Object} domEl Дом элемент.
-	     * @param {Array} observeAttrs Массив названий атрибутов используемых для задания свойств компаненты.
-	     */
-	    function Component(domEl, observeAttrs) {
-	        _classCallCheck(this, Component);
-	
-	        this.domEl = domEl;
-	        var my = this;
-	        this.observer = new MutationObserver(function (mutations) {
-	            if (['characterData', 'attributes'].indexOf(mutations[0].type) != -1) {
-	                my._render();
-	            }
-	        });
-	        this.observer.observe(this.domEl, {
-	            characterData: true,
-	            characterDataOldValue: true,
-	            subtree: true,
-	            attributes: true,
-	            childList: false,
-	            attributeFilter: observeAttrs
-	        });
-	        this._render();
-	    }
-	
-	    /**
-	     * Рендеринг компоненты.
-	     *
-	     * @method _render
-	     */
-	
-	
-	    _createClass(Component, [{
-	        key: '_render',
-	        value: function _render() {
-	            //render to dom
+	    }, {
+	        key: 'observedAttributes',
+	        get: function get() {
+	            return ['layout', 'order'];
 	        }
 	    }]);
-
-	    return Component;
-	}();
+	
+	    return TileLetters;
+	}(HTMLElement);
 
 /***/ },
+/* 2 */,
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -343,7 +337,7 @@
 	
 	
 	// module
-	exports.push([module.id, "tile-letters {\n  position: relative;\n  display: block;\n  border: #0f0 solid 1px;\n  margin-bottom: 10px;\n}\ntile-letters-result {\n  border: #f00 solid 1px;\n  position: relative;\n  display: flex;\n}\ntile-letters-result tile {\n  position: relative;\n  display: block;\n  color: #fff;\n  background-color: #0000ed;\n  font-size: 28px;\n  padding: 20px;\n  margin: 5px;\n  text-transform: uppercase;\n  font-weight: bold;\n}\n", ""]);
+	exports.push([module.id, "tile-letters {\n  position: relative;\n  display: block;\n  margin-bottom: 10px;\n}\ntile-letters::shadow letters {\n  position: relative;\n  display: flex;\n  margin-top: 20px;\n}\ntile-letters::shadow letters tile {\n  position: relative;\n  display: block;\n  color: #fff;\n  background-color: #0000ed;\n  font-size: 28px;\n  padding: 20px;\n  margin: 5px;\n  text-transform: uppercase;\n  font-weight: bold;\n  box-shadow: 3px 5px 14px 0px rgba(0, 0, 0, 0.55);\n  transition: 3s;\n}\n", ""]);
 	
 	// exports
 
